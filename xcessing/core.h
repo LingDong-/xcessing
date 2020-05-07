@@ -67,7 +67,7 @@ int fill_color = 0xFFFFFF;
 int stroke_color = 0;
 int stroke_weight = 1;
 int polygon_mode = Nonconvex;
-int ellipse_detail = 32;
+int ellipse_detail = 20;
 int bezier_detail = 20;
 int stroke_cap = CapRound;
 int stroke_join = JoinMiter;
@@ -217,37 +217,37 @@ XGraphics createImage(int w, int h){
     return g;
 }
 
-void clear(XGraphics g){
-    XSetForeground(dis, g.clip_gc, 0);
-    XFillRectangle(dis, g.clip, g.clip_gc, 0, 0, g.width, g.height);
+void clear(XGraphics* g){
+    XSetForeground(dis, g->clip_gc, 0);
+    XFillRectangle(dis, g->clip, g->clip_gc, 0, 0, g->width, g->height);
     
 }
 
-void destroyGraphics(XGraphics g){
-    if (g.img){
-        XDestroyImage(g.img);
+void destroyGraphics(XGraphics* g){
+    if (g->img){
+        XDestroyImage(g->img);
     }else{
-        XFreePixmap(dis, g.pix);
-        XFreePixmap(dis, g.clip);
-        XFreeGC(dis,     g.clip_gc);
+        XFreePixmap(dis, g->pix);
+        XFreePixmap(dis, g->clip);
+        XFreeGC(dis,     g->clip_gc);
     }
 }
-void beginDraw(XGraphics g){
-    draw_ptr    = &(g.pix);
-    clip_ptr    = &(g.clip);
-    clip_gc_ptr = &(g.clip_gc);
+void beginDraw(XGraphics* g){
+    draw_ptr    = &(g->pix);
+    clip_ptr    = &(g->clip);
+    clip_gc_ptr = &(g->clip_gc);
 }
 void endDraw(){
     draw_ptr = &win;
     clip_ptr = NULL;
     clip_gc_ptr = NULL;
 }
-void image(XGraphics g, int x, int y, int width, int height){
-    if (g.img){
-        XPutImage(dis,*draw_ptr,gc,g.img,0,0,0,0,width,height);
+void image(XGraphics* g, int x, int y, int width, int height){
+    if (g->img){
+        XPutImage(dis,*draw_ptr,gc,g->img,0,0,0,0,width,height);
     }else{
-        XSetClipMask(dis, gc, g.clip);
-        XCopyArea(dis, g.pix, *draw_ptr, gc, 0, 0, width, height, x, y);
+        XSetClipMask(dis, gc, g->clip);
+        XCopyArea(dis, g->pix, *draw_ptr, gc, 0, 0, width, height, x, y);
         XSetClipMask(dis, gc, None);
     }
 }
@@ -341,7 +341,6 @@ void endShape(){
             XSetForeground(dis, *clip_gc_ptr, 1);
             XFillPolygon(dis,*clip_ptr, *clip_gc_ptr, vtx_buf, n_vtx_buf, polygon_mode, CoordModeOrigin);
         }
-
     }
     if (stroke_color != -1){
         XSetLineAttributes(dis, gc, stroke_weight, stroke_style, stroke_cap, stroke_join);
@@ -607,29 +606,29 @@ void applyMatrix(float n00, float n01, float n02, float n10, float n11, float n1
     matmul3x3(matrix_stack_tail,&B,matrix_stack_tail);
 }
 
-void loadPixels(XGraphics g){
-    int w = g.width;
-    int h = g.height;
+void loadPixels(XGraphics* g){
+    int w = g->width;
+    int h = g->height;
     if (pixels){
         free(pixels);
     }
-    if (!g.img){
+    if (!g->img){
         pixels = NULL;
         return;
     }
     pixels = malloc(w*h*(sizeof(int)));
-    memcpy(pixels, g.img->data, w*h*sizeof(int));
+    memcpy(pixels, g->img->data, w*h*sizeof(int));
 }
 
-void updatePixels(XGraphics g){
-    int w = g.width;
-    int h = g.height;
-    if (!g.img){
-        g.img = XCreateImage(dis, DefaultVisual(dis,screen), DefaultDepth(dis,screen), ZPixmap, 0, (char*) pixels, w, h, 32, 0);
+void updatePixels(XGraphics* g){
+    int w = g->width;
+    int h = g->height;
+    if (!g->img){
+        g->img = XCreateImage(dis, DefaultVisual(dis,screen), DefaultDepth(dis,screen), ZPixmap, 0, (char*) pixels, w, h, 32, 0);
         return;
     }
     for (int i = 0; i < w*h; i++){
-        XPutPixel(g.img,i%w,i/w,pixels[i]);
+        XPutPixel(g->img,i%w,i/w,pixels[i]);
     }
 }
 
@@ -749,6 +748,7 @@ int main () {
         popMatrix();
         
         frameCount ++;
+        usleep(1000);
 
     }
 }

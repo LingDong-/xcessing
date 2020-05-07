@@ -12,7 +12,7 @@ void setup(){
 
     pixels0 = malloc(sizeof(int)*img.width*img.height);
     
-    loadPixels(img);
+    loadPixels(&img);
     memcpy(pixels0,pixels,sizeof(int)*img.width*img.height);
 }
 
@@ -22,15 +22,15 @@ void draw(){
         int d = (int)((sin((i+frameCount)*0.1)+1)*(mouseX/8));
         memcpy(pixels+i*img.width,pixels0+(i*img.width+d),img.width*sizeof(int));
     }
-    updatePixels(img);
+    updatePixels(&img);
 
-    image(img,0,0,img.width,img.height);
+    image(&img,0,0,img.width,img.height);
 }
 
 void stop(){
     free(pixels0);
     free(pixels);
-    destroyGraphics(img);   
+    destroyGraphics(&img);   
 }
 
 void mousePressed(){}

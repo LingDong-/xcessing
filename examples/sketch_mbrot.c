@@ -22,7 +22,7 @@ void setup(){
   img = createImage(width,height);
   // Make sure we can write to the pixels[] array.
   // Only need to do this once since we don't do any other drawing.
-  loadPixels(img);
+  loadPixels(&img);
 
   // Maximum number of iterations for each point on the complex plane
   int maxiterations = 100;
@@ -83,17 +83,17 @@ void setup(){
     }
     y += dy;
   }
-  updatePixels(img);
+  updatePixels(&img);
 
 }
 
 void draw(){
-  image(img,0,0,width,height);
+  image(&img,0,0,width,height);
 }
 
 void stop(){
   free(pixels);
-  destroyGraphics(img);
+  destroyGraphics(&img);
 }
 
 void mousePressed(){}
