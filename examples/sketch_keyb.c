@@ -23,6 +23,7 @@ void setup() {
   for(int i = 0; i < numChars; i++) {
     colors[i] = hsb(((float)i/(float)numChars)*360, 1.0,1.0);    
   }
+  noLoop();
 }
 
 void draw() {

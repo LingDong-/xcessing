@@ -4,6 +4,7 @@
 
 void setup() {
   size(480, 120);
+  noLoop();
 }
 
 void draw() {

@@ -6,6 +6,7 @@ void setup(){
     size(640,360);
     stroke(255,255,255);
     noFill();
+    noLoop();
 }
 
 void draw(){

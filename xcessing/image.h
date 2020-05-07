@@ -1,6 +1,6 @@
 #include <png.h>
 
-// use libpng to read png into array of 0s and 1s
+// use libpng to read png into array of hex colors
 int* read_png(char* file_name, int* w, int* h){
   // based on http://zarb.org/~gc/html/libpng.html
   int x, y, z, W, H;

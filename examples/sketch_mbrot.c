@@ -7,6 +7,7 @@ XGraphics img;
 
 void setup(){
   size(640, 360);
+  noLoop();
 
   // Establish a range of values on the complex plane
   // A different range will allow us to "zoom" in or out on the fractal

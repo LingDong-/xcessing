@@ -62,7 +62,7 @@ XPoint*   vtx_buf = NULL;
 int       n_vtx_buf = 0;
 int       m_vtx_buf = 0;
 
-int* pixels = NULL;
+int no_loop = 0;
 int fill_color = 0xFFFFFF;
 int stroke_color = 0;
 int stroke_weight = 1;
@@ -76,6 +76,7 @@ int get_width(Drawable* d);
 int get_height(Drawable* d);
 
 // API variables
+int* pixels = NULL;
 char keyCode = -1;
 int mouseX;
 int mouseY;
@@ -281,7 +282,12 @@ void strokeCap(int cap){
 void strokeJoin(int join){
     stroke_join = join;
 }
-
+void loop(){
+    no_loop = 0;
+}
+void noLoop(){
+    no_loop = 1;
+}
 void background(int r, int g, int b){
     // XSetBackground(dis,gc,color(r,g,b));
     // XClearWindow(dis,win);
@@ -687,8 +693,11 @@ int main () {
 
     XInit();
 
-    while (1) {   
-        if (XCheckMaskEvent(dis, eventMasks, &event)){
+    while (1) {
+        if (no_loop){
+            XNextEvent(dis, &event);
+        }
+        if (no_loop || XCheckMaskEvent(dis, eventMasks, &event)){
             if (event.type==KeyPress&&
                 XLookupString(&event.xkey,keybuf,BUFFSIZE,&key,0)==1) {
 
@@ -697,7 +706,7 @@ int main () {
                 }
                 keyCode = keybuf[0];
                 keyPressed();  
-                XSync(dis, False);
+                if(!no_loop)XSync(dis, False);
             }else if (event.type==ButtonPress) {
                 pmouseX=mouseX;
                 pmouseY=mouseY;
@@ -706,7 +715,7 @@ int main () {
                 mouseButton = event.xbutton.button;
                 mouseIsPressed = 1;
                 mousePressed();
-                XSync(dis, False);
+                if(!no_loop)XSync(dis, False);
                 
             }else if (event.type==ButtonRelease) {
                 pmouseX=mouseX;
@@ -715,7 +724,7 @@ int main () {
                 mouseY=event.xbutton.y;
                 mouseIsPressed = 0;
                 mouseReleased();
-                XSync(dis, False);
+                if(!no_loop)XSync(dis, False);
                 
             }else if (event.type==MotionNotify){
                 pmouseX=mouseX;
@@ -734,13 +743,13 @@ int main () {
                     }
                     mouseDragged();
                 }
-                XSync(dis, True);
+                if(!no_loop)XSync(dis, True);
             } 
         }
         if (frameCount % 100 == 1){
-            XSync(dis, True);
+            if(!no_loop)XSync(dis, True);
         }else{
-            XSync(dis, False);
+            if(!no_loop)XSync(dis, False);
         }
         pushMatrix();
         draw();
@@ -748,7 +757,7 @@ int main () {
         popMatrix();
         
         frameCount ++;
-        usleep(1000);
+        // usleep(1000);
 
     }
 }

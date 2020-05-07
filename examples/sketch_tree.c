@@ -7,6 +7,7 @@ float theta;
 
 void setup() {
   size(640, 360);
+  noLoop();
 }
 
 void branch(float h) {
