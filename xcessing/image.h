@@ -1,3 +1,6 @@
+#ifndef _XCESSING_IMAGE_H
+#define _XCESSING_IMAGE_H
+
 #include <png.h>
 
 // use libpng to read png into array of hex colors
@@ -95,3 +98,5 @@ XGraphics loadImage(char* fname){
   g.img = xim;
   return g;
 }
+
+#endif

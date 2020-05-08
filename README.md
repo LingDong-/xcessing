@@ -152,7 +152,12 @@ sh run.sh sketch_flock.c
 
 ## Documentation
 
-We're working on a documentation, for now, please check out [Processing's reference](https://processing.org/reference/). Also please check out the following section for notable differences from Processing.
+We're working on a documentation, for now, please check out [Processing's reference](https://processing.org/reference/). 
+
+Please also check out:
+
+- The "kitchen sink" demo that covers most of the features, at `examples/sketch_sink.c`.
+- The following section for notable differences from Processing.
 
 ## Differences from Processing
 

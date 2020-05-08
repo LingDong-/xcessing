@@ -1,3 +1,6 @@
+#ifndef _XCESSING_RANDOM_H
+#define _XCESSING_RANDOM_H
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -158,3 +161,5 @@ void cleanup_random(){
     ziggurat_initialized = 0;
   }
 }
+
+#endif

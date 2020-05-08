@@ -1,3 +1,5 @@
+#ifndef _XCESSING_LIST_H
+#define _XCESSING_LIST_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -101,3 +103,5 @@ void listReverse(List a){
         }
     }
 }
+
+#endif

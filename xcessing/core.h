@@ -2,6 +2,9 @@
 gcc sketch.c -I /opt/X11/include -L/opt/X11/lib -lX11
 */
 
+#ifndef _XCESSING_CORE_H
+#define _XCESSING_CORE_H
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
@@ -245,7 +248,7 @@ void endDraw(){
 }
 void image(XGraphics* g, int x, int y, int width, int height){
     if (g->img){
-        XPutImage(dis,*draw_ptr,gc,g->img,0,0,0,0,width,height);
+        XPutImage(dis,*draw_ptr,gc,g->img,0,0,x,y,width,height);
     }else{
         XSetClipMask(dis, gc, g->clip);
         XCopyArea(dis, g->pix, *draw_ptr, gc, 0, 0, width, height, x, y);
@@ -762,3 +765,5 @@ int main () {
     }
 }
 
+
+#endif

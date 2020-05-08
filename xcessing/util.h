@@ -1,3 +1,6 @@
+#ifndef _XCESSING_UTIL_H
+#define _XCESSING_UTIL_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -107,3 +110,5 @@ Vec2f vlerp(Vec2f u, Vec2f v, float t){return vnew(u.x*(1-t)+v.x*t, u.y*(1-t)+v.
 float vangleBetween(Vec2f u, Vec2f v){return acos(vdot(u,v)/(vmag(u)*vmag(v)));}
 float vangle(Vec2f u, Vec2f v){return acos(vdot(u,v)/(vmag(u)*vmag(v)));}
 void  vprint(Vec2f u){printf("(%f, %f)\t",u.x,u.y);}
+
+#endif
